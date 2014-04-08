@@ -18,7 +18,9 @@ Call `selectionchange.start()` to enable the polyfill and `selectionchange.stop(
 to disable it. Both functions take an optional `DOMDocument` argument, defaulting
 to `window.document`.
 
-Handlers for the `selectionchange` event should be registered on the document.
+Handlers for the `selectionchange` event should be registered on the document or
+its `.defaultView` (typically `window`).
+
 The event is not cancellable and carries no information about the previous or
 current selection.
 
@@ -48,13 +50,14 @@ There are also some ways a user can modify a selection:
   - User holds down Shift key (and optionally Alt key) and clicks and/or drags mouse
   - User holds down Shift key (and optionally Alt key) and presses an arrow key
 
-Note that, while Chrome alters the selection if the user scrolls the
-wheel while the primary mouse button is down, Firefox does not. It only
-updates the selection on `mousemove`.
+Note that, while Chrome will sometimes alter the selection if the user scrolls the
+wheel with the primary mouse button down, Firefox does not. It only updates the
+selection on `mousemove`.
 
 No DOM event fires when a user chooses "Select All" from a menu or when the
 selection is changed via script, so the best that can be done to detect those
 scenarios is polling the document selection for changes. Because that can be
-expensive and is a bit of a corner case, this polyfill doesn't do it. As a result,
-the `selectionchange` event will not necessarily fire soon after these kinds of
-changes, but may still fire eventually, after a subsequent user action.
+expensive and is a bit of a corner case, this polyfill doesn't do it for now.
+As a result, the `selectionchange` event will not necessarily fire soon after
+these kinds of changes, but may still fire eventually, after a subsequent user
+action.
