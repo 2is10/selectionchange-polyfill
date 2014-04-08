@@ -6,10 +6,11 @@ A polyfill that fires `selectionchange` events for Firefox.
 Why
 ---
 
-Firefox has a `select` event for when the selection changes within an `input`
-or `textarea` element, but doesn't yet support the general `selectionchange`
-event like the other major browsers. This polyfill fires it very close to how
-Google Chrome does.
+Firefox has a `select` event for when the selection changes within
+an `input` or `textarea` element, but doesn't yet support the general
+`selectionchange` event like other major browsers
+(see [feature request](https://bugzilla.mozilla.org/show_bug.cgi?id=571294)).
+This polyfill models its behavior after Google Chrome’s.
 
 How to Use
 ----------
