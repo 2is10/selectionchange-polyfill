@@ -6,9 +6,9 @@ A polyfill that fires selectionchange events for Firefox.
 Why
 ---
 
-Firefox has a `select` event for when the selection changes within
-an input or textarea element, but doesn't yet support `selectionchange`
-like the other major browsers. This polyfill fires it very close to how
+Firefox has a `select` event for when the selection changes within an `input`
+or `textarea` element, but doesn't yet support the general `selectionchange`
+event like the other major browsers. This polyfill fires it very close to how
 Google Chrome does.
 
 How to Use
@@ -18,9 +18,9 @@ Call `selectionchange.start()` to enable the polyfill and `selectionchange.stop(
 to disable it. Both functions take an optional `DOMDocument` argument, defaulting
 to `window.document`.
 
-Handlers for the `selectionchange` event should be registered on the
-document element. The event is not cancellable carries no information
-about the previous or current selection.
+Handlers for the `selectionchange` event should be registered on the document.
+The event is not cancellable and carries no information about the previous or
+current selection.
 
 ```HTML
 <script src="selectionchange.js"></script>
