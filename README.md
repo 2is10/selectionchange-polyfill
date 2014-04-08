@@ -1,7 +1,7 @@
 selectionchange-polyfill
 ========================
 
-A polyfill that fires selectionchange events for Firefox.
+A polyfill that fires `selectionchange` events for Firefox.
 
 Why
 ---
