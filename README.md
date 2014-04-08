@@ -15,7 +15,8 @@ How to Use
 ----------
 
 Call `selectionchange.start()` to enable the polyfill and `selectionchange.stop()`
-to disable it.
+to disable it. Both functions take an optional `DOMDocument` argument, defaulting
+to `window.document`.
 
 Handlers for the `selectionchange` event should be registered on the
 document element. The event is not cancellable carries no information
