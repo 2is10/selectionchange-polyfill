@@ -20,7 +20,7 @@ to disable it. Both functions take an optional `DOMDocument` argument, defaultin
 to `window.document`.
 
 Handlers for the `selectionchange` event should be registered on the document or
-its `.defaultView` (typically `window`).
+its `.defaultView` (its `window`).
 
 The event is not cancellable and carries no information about the previous or
 current selection.
