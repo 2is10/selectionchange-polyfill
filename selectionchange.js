@@ -1,36 +1,35 @@
+// github.com/2is10/selectionchange-polyfill
+
 var selectionchange = (function (undefined) {
 
   var SELECT_ALL_MODIFIER = /^Mac/.test(navigator.platform) ? 'metaKey' : 'ctrlKey';
   var RANGE_PROPS = ['startContainer', 'startOffset', 'endContainer', 'endOffset'];
 
-  var selections, ranges;
+  var ranges;
 
   return {
     start: function (doc) {
       var d = doc || document;
-      if (selections || !hasNativeSupport(d) && createMaps()) {
-        if (!selections.has(d)) {
-          var s = d.getSelection();
-          selections.set(d, s);
+      if (ranges || !hasNativeSupport(d) && (ranges = newWeakMap())) {
+        if (!ranges.has(d)) {
+          ranges.set(d, getSelectionRange(d));
           on(d, 'keydown', onKeyDown);
           on(d, 'mousedown', onMouseDown);
           on(d, 'mousemove', onMouseMove);
           on(d, 'mouseup', onMouseUp);
-          if (s.rangeCount) {
-            ranges.set(d, s.getRangeAt(0));
-          }
+          on(d.defaultView, 'focus', onFocus);
         }
       }
     },
     stop: function (doc) {
       var d = doc || document;
-      if (selections.has(d)) {
-        selections.delete(d);
+      if (ranges && ranges.has(d)) {
         ranges.delete(d);
         off(d, 'keydown', onKeyDown);
         off(d, 'mousedown', onMouseDown);
         off(d, 'mousemove', onMouseMove);
         off(d, 'mouseup', onMouseUp);
+        off(d.defaultView, 'focus', onFocus);
       }
     }
   };
@@ -48,15 +47,18 @@ var selectionchange = (function (undefined) {
     return false;
   }
 
-  function createMaps() {
+  function newWeakMap() {
     if (typeof WeakMap !== 'undefined') {
-      selections = new WeakMap();
-      ranges = new WeakMap();
-      return true;
+      return new WeakMap();
     } else {
       console.error('selectionchange: WeakMap not supported');
-      return false;
+      return null;
     }
+  }
+
+  function getSelectionRange(doc) {
+    var s = doc.getSelection();
+    return s.rangeCount ? s.getRangeAt(0) : null;
   }
 
   function on(el, eventType, handler) {
@@ -98,10 +100,13 @@ var selectionchange = (function (undefined) {
     }
   }
 
+  function onFocus() {
+    setTimeout(dispatchIfChanged.bind(null, this.document), 0);
+  }
+
   function dispatchIfChanged(doc) {
-    var s = selections.get(doc);
     var rOld = ranges.get(doc);
-    var rNew = s.rangeCount ? s.getRangeAt(0) : undefined;
+    var rNew = getSelectionRange(doc);
     if (!sameRange(rNew, rOld)) {
       ranges.set(doc, rNew);
       setTimeout(doc.dispatchEvent.bind(doc, new Event('selectionchange')), 0);
