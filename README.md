@@ -1,20 +1,20 @@
-selectionchange-shim
-====================
+selectionchange-polyfill
+========================
 
-A shim that fires selectionchange events for Firefox.
+A polyfill that fires selectionchange events for Firefox.
 
 Why
 ---
 
 Firefox has a `select` event for when the selection changes within
 an input or textarea element, but doesn't yet support `selectionchange`
-like the other major browsers. This shim fires it very close to how
+like the other major browsers. This polyfill fires it very close to how
 Google Chrome does.
 
 How to Use
 ----------
 
-Call `selectionchange.start()` to enable the shim and `selectionchange.stop()`
+Call `selectionchange.start()` to enable the polyfill and `selectionchange.stop()`
 to disable it.
 
 Handlers for the `selectionchange` event should be registered on the
@@ -54,6 +54,6 @@ updates the selection on `mousemove`.
 No DOM event fires when a user chooses "Select All" from a menu or when the
 selection is changed via script, so the best that can be done to detect those
 scenarios is polling the document selection for changes. Because that can be
-expensive and is a bit of a corner case, this shim doesn't do it. As a result,
-the `selectionchange` event will not necessarily fire soon after these kinds
-of changes, but may still fire eventually, after a subsequent user action.
+expensive and is a bit of a corner case, this polyfill doesn't do it. As a result,
+the `selectionchange` event will not necessarily fire soon after these kinds of
+changes, but may still fire eventually, after a subsequent user action.
