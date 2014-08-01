@@ -24,7 +24,7 @@ var selectionchange = (function (undefined) {
     stop: function (doc) {
       var d = doc || document;
       if (ranges && ranges.has(d)) {
-        ranges.delete(d);
+        ranges.["delete"](d);
         off(d, 'keydown', onKeyDown);
         off(d, 'mousedown', onMouseDown);
         off(d, 'mousemove', onMouseMove);
@@ -40,6 +40,8 @@ var selectionchange = (function (undefined) {
       try {
         doc.onselectionchange = 0;
         return doc.onselectionchange === null;
+      } catch (e) {
+        doc.onselectionchange = osc;
       } finally {
         doc.onselectionchange = osc;
       }
