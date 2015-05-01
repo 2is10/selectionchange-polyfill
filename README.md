@@ -10,7 +10,7 @@ Firefox has a `select` event for when the selection changes within
 an `input` or `textarea` element, but doesn't yet support the general
 `selectionchange` event like other major browsers
 (see [feature request](https://bugzilla.mozilla.org/show_bug.cgi?id=571294)).
-This polyfill models its behavior after Google Chrome’s behavior.
+This polyfill uses the same event dispatch ordering as Google Chrome.
 
 How to Use
 ----------
