@@ -10,7 +10,7 @@ Firefox has a `select` event for when the selection changes within
 an `input` or `textarea` element, but doesn't yet support the general
 `selectionchange` event like other major browsers
 (see [feature request](https://bugzilla.mozilla.org/show_bug.cgi?id=571294)).
-This polyfill models its behavior after Google Chrome’s.
+This polyfill models its behavior after Google Chrome’s behavior.
 
 How to Use
 ----------
@@ -56,6 +56,10 @@ Ways a user can modify a selection:
   - :white_check_mark: User holds down Shift key (and optionally Alt key) and clicks and/or drags mouse
   - :white_check_mark: User holds down Shift key (and optionally Alt key) and presses an arrow key
   - ~~User scrolls the wheel with the primary mouse button down~~ (a Chrome/Safari feature not in Firefox)
+
+Additional ways a user can modify a selection in a contenteditable element or a designMode document:
+  - :white_check_mark: User presses an arrow key
+  - :white_check_mark: User makes an edit (types a character, deletes, cuts, pastes, drops content)
 
 Ways a script can create or modify a selection:
   - :x: Using the Selection API <sup>2</sup>

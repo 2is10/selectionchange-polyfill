@@ -2,7 +2,9 @@
 
 var selectionchange = (function (undefined) {
 
-  var SELECT_ALL_MODIFIER = /^Mac/.test(navigator.platform) ? 'metaKey' : 'ctrlKey';
+  var MAC = /^Mac/.test(navigator.platform);
+  var MAC_MOVE_KEYS = [65, 66, 69, 70, 78, 80]; // A, B, E, F, P, N from support.apple.com/en-ie/HT201236
+  var SELECT_ALL_MODIFIER = MAC ? 'metaKey' : 'ctrlKey';
   var RANGE_PROPS = ['startContainer', 'startOffset', 'endContainer', 'endOffset'];
 
   var ranges;
@@ -13,6 +15,7 @@ var selectionchange = (function (undefined) {
       if (ranges || !hasNativeSupport(d) && (ranges = newWeakMap())) {
         if (!ranges.has(d)) {
           ranges.set(d, getSelectionRange(d));
+          on(d, 'input', onInput);
           on(d, 'keydown', onKeyDown);
           on(d, 'mousedown', onMouseDown);
           on(d, 'mousemove', onMouseMove);
@@ -25,6 +28,7 @@ var selectionchange = (function (undefined) {
       var d = doc || document;
       if (ranges && ranges.has(d)) {
         ranges['delete'](d);
+        off(d, 'input', onInput);
         off(d, 'keydown', onKeyDown);
         off(d, 'mousedown', onMouseDown);
         off(d, 'mousemove', onMouseMove);
@@ -70,10 +74,15 @@ var selectionchange = (function (undefined) {
     el.removeEventListener(eventType, handler, true);
   }
 
+  function onInput() {
+    dispatchIfChanged(this, true);
+  }
+
   function onKeyDown(e) {
     var code = e.keyCode;
     if (code === 65 && e[SELECT_ALL_MODIFIER] && !e.shiftKey && !e.altKey || // Ctrl-A or Cmd-A
-        (code <= 40 && code >= 37) && e.shiftKey) { // (Alt-)Shift-arrow
+        code >= 37 && code <= 40 || // arrow key
+        e.ctrlKey && MAC && MAC_MOVE_KEYS.indexOf(code) >= 0) {
       setTimeout(dispatchIfChanged.bind(null, this), 0);
     }
   }
@@ -105,11 +114,10 @@ var selectionchange = (function (undefined) {
     setTimeout(dispatchIfChanged.bind(null, this.document), 0);
   }
 
-  function dispatchIfChanged(doc) {
-    var rOld = ranges.get(doc);
-    var rNew = getSelectionRange(doc);
-    if (!sameRange(rNew, rOld)) {
-      ranges.set(doc, rNew);
+  function dispatchIfChanged(doc, force) {
+    var r = getSelectionRange(doc);
+    if (force || !sameRange(r, ranges.get(doc))) {
+      ranges.set(doc, r);
       setTimeout(doc.dispatchEvent.bind(doc, new Event('selectionchange')), 0);
     }
   }
