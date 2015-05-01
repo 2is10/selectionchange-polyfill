@@ -6,6 +6,7 @@ var selectionchange = (function (undefined) {
   var MAC_MOVE_KEYS = [65, 66, 69, 70, 78, 80]; // A, B, E, F, P, N from support.apple.com/en-ie/HT201236
   var SELECT_ALL_MODIFIER = MAC ? 'metaKey' : 'ctrlKey';
   var RANGE_PROPS = ['startContainer', 'startOffset', 'endContainer', 'endOffset'];
+  var HAS_OWN_SELECTION = {INPUT: 1, TEXTAREA: 1};
 
   var ranges;
 
@@ -74,8 +75,10 @@ var selectionchange = (function (undefined) {
     el.removeEventListener(eventType, handler, true);
   }
 
-  function onInput() {
-    dispatchIfChanged(this, true);
+  function onInput(e) {
+    if (!HAS_OWN_SELECTION[e.target.tagName]) {
+      dispatchIfChanged(this, true);
+    }
   }
 
   function onKeyDown(e) {
@@ -83,7 +86,9 @@ var selectionchange = (function (undefined) {
     if (code === 65 && e[SELECT_ALL_MODIFIER] && !e.shiftKey && !e.altKey || // Ctrl-A or Cmd-A
         code >= 37 && code <= 40 || // arrow key
         e.ctrlKey && MAC && MAC_MOVE_KEYS.indexOf(code) >= 0) {
-      setTimeout(dispatchIfChanged.bind(null, this), 0);
+      if (!HAS_OWN_SELECTION[e.target.tagName]) {
+        setTimeout(dispatchIfChanged.bind(null, this), 0);
+      }
     }
   }
 
