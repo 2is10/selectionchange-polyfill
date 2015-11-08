@@ -54,11 +54,11 @@ Ways a user can create a new selection:
 Ways a user can modify a selection:
   - :white_check_mark: User moves mouse while holding down primary mouse button
   - :white_check_mark: User holds down Shift key (and optionally Alt key) and clicks and/or drags mouse
-  - :white_check_mark: User holds down Shift key (and optionally Alt key) and presses an arrow key
+  - :white_check_mark: User holds down Shift key (and optionally Alt key) and presses an arrow key, Home or End
   - ~~User scrolls the wheel with the primary mouse button down~~ (a Chrome/Safari feature not in Firefox)
 
 Additional ways a user can modify a selection in a contenteditable element or a designMode document:
-  - :white_check_mark: User presses an arrow key
+  - :white_check_mark: User presses an arrow key, Home or End
   - :white_check_mark: User makes an edit (types a character, deletes, cuts, pastes, drops content)
 
 Ways a script can create or modify a selection:
