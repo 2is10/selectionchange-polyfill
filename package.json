@@ -1,0 +1,29 @@
+{
+  "name": "selectionchange-polyfill",
+  "version": "1.0.0",
+  "description": "A polyfill that fires selectionchange events for Firefox",
+  "main": "selectionchange.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/2is10/selectionchange-polyfill.git"
+  },
+  "keywords": [
+    "selection",
+    "selectionchange",
+    "onselectionchange",
+    "event",
+    "polyfill"
+  ],
+  "author": {
+    "name": "Jared Jacobs",
+    "url": "https://github.com/2is10"
+  },
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/2is10/selectionchange-polyfill/issues"
+  },
+  "homepage": "https://github.com/2is10/selectionchange-polyfill"
+}
