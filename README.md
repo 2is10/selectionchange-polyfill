@@ -12,6 +12,8 @@ an `input` or `textarea` element, but doesn't yet support the general
 (see [feature request](https://bugzilla.mozilla.org/show_bug.cgi?id=571294)).
 This polyfill uses the same event dispatch ordering as Google Chrome.
 
+:collision: _**UPDATE:**_ Firefox 52+ supports [selection events](https://developer.mozilla.org/en-US/docs/Web/API/Selection_API) natively. :tada:
+
 How to Use
 ----------
 
